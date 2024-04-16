@@ -13,7 +13,8 @@ import { Server } from 'socket.io'
 
 const app = express()
 // Guardar en una cont
-const httpServer = app.listen(8080, error => {
+const PORT = process.env.PORT || 8080
+const httpServer = app.listen(PORT, error => {
     if(error) console.log(error)
     console.log('Server escuchando en el puerto 8080')
 })

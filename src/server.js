@@ -1,19 +1,21 @@
-import express from 'express'
+const express = require('express')
 
-import usersRouter from './routes/users.router.js'
-import productsRouter from './routes/products.router.js'
-import viewsRouter from './routes/views.router.js'
-import { __dirname } from './utils.js'
-import { uploader } from './multer.js'
+// import usersRouter from './routes/users.router.js'
+// import productsRouter from './routes/products.router.js'
+const  viewsRouter = require('./routes/views.router.js')
+// import { __dirname } from './utils.js'
+// import { uploader } from './multer.js'
 // motor de plantilla
-import handlebars from 'express-handlebars'
-import { productsSocket } from './utils/productsSocket.js'
+const  handlebars = require('express-handlebars')
+const  { productsSocket } = require('./utils/productsSocket.js')
 // socket io
-import { Server } from 'socket.io'
+const  { Server } = require('socket.io')
 
 const app = express()
 // Guardar en una cont
 const PORT = process.env.PORT || 8080
+
+
 const httpServer = app.listen(PORT, error => {
     if(error) console.log(error)
     console.log('Server escuchando en el puerto 8080')
@@ -35,22 +37,22 @@ app.set('views', __dirname+'/views')
 app.set('view engine', 'hbs')
 
 //middleware
-app.use(productsSocket(io))
+// app.use(productsSocket(io))
 
 
-app.use('/subir-archivo', uploader.single('myFile') ,(req, res) => {
-    if (!req.file) {
-        return res.send('no se puede subir el archivo')        
-    }
+// app.use('/subir-archivo', uploader.single('myFile') ,(req, res) => {
+//     if (!req.file) {
+//         return res.send('no se puede subir el archivo')        
+//     }
 
-    res.send('archivo subido')
-})
+//     res.send('archivo subido')
+// })
 
 app.use('/', viewsRouter)
 
-app.use('/api/users', usersRouter)
+// app.use('/api/users', usersRouter)
 
-app.use('/api/products', productsRouter)
+// app.use('/api/products', productsRouter)
 
 app.use((error, req, res, next) => {
     console.log(error)
